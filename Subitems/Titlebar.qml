@@ -21,7 +21,7 @@ RowLayout {
             font.bold: Style.title.text.bold
             font.letterSpacing: Style.title.letterSpacing
 
-            anchors.top: parent.top
+            anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: 20
         }
@@ -37,7 +37,7 @@ RowLayout {
     //     signal exit()
 
     //     Text {
-    //         text: "X"
+    //         text: "x"
 
     //         color: Style.fg_color
     //         font.pointSize: Style.title.text.ptSize

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Hannes Stoll" />
+  <title>Welcome</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Welcome</h1>
+<p class="author">Hannes Stoll</p>
+</header>
+<h1 id="hello-world">Hello World</h1>
+<p>If <span class="math inline">\(x\)</span> is non-positive then <span class="math inline">\(x \leq -\sqrt{\frac{1}{2}}\)</span> <span class="math inline">\(\hspace{30 mm}\)</span> (6)<br />
+(4) and (6) tell us that<br />
+(4) <span class="math inline">\(-1 \leq x \leq 0\)</span><br />
+(6) If <span class="math inline">\(x\)</span> is non-positive then <span class="math inline">\(x \leq -\sqrt{\frac{1}{2}}\)</span><br />
+Therefore <span class="math inline">\(-1 \leq x \leq -\sqrt{\frac{1}{2}}\)</span><br />
+</p>
+<p><span class="math display">\[\begin{aligned}
+\psgrid[unit=2cm](0,0)(-2,-2)(2,2)
+\pnode(-1.8,.87){b}\uput[50](b){b}
+\pnode(-1.8,1.8){a}\uput[50](a){a}
+\psset{linecolor=green}
+\psline[linewidth=1pt](-1.8, 0)(-1.8,4)
+\psset{linecolor=green}
+\psline[linewidth=1pt](-1.8, 0)(-1.8,-4)
+\psset{linecolor=blue}
+\psellipticarc(0,0)(2,2){0}{180}
+\psset{linecolor=red}
+\psline[linewidth=1pt,linestyle=dashed,dash=2pt](-2,2)(-1.41,1.41)
+\psset{linecolor=red}
+\psline[linewidth=1pt](-1.41,1.41)
+\psset{linecolor=red}
+\psline[linewidth=1pt]{-&gt;}(4,-4)
+\psset{linecolor=red}
+\psline[linewidth=1pt]{-&gt;}(-2,2)(-4,4)\end{aligned}\]</span></p>
+</body>
+</html>

@@ -29,26 +29,27 @@ Rectangle {
         SplitView {
             id: main_splitview
             objectName: "main_splitview"
-
             orientation: Qt.Horizontal
-
             Layout.fillWidth: true
             Layout.fillHeight: true
 
             ArticleMenu {
                 id: article_menu
                 objectName: "article_menu"
-                // color: Style.bg_color
-                
-                // Layout.maximumWidth: 400
-                Layout.preferredWidth: 400
+                anchors.fill: undefined
             }
 
-            Rectangle {
-                id: menu_options_bar
-                objectName: "article_menu_options_bar"
-                color: Style.fg_color
-                
+            // Rectangle {
+            //     id: content_view
+            //     objectName: "article_menu_options_bar"
+            //     color: Style.fg_color
+
+            //     Layout.fillWidth: true
+            //     Layout.fillHeight: true
+            // }
+            ContentViewer {
+                id: content_viewer
+                objectName: "content_viewer"
                 Layout.fillWidth: true
                 Layout.fillHeight: true
             }

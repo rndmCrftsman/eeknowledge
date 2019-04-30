@@ -8,6 +8,12 @@ StackView {
     id: content_view_handler
     initialItem: content_web_view
 
+    signal closeListEditor()
+    signal closeSourceEditor()
+
+    property alias content_list_editor: content_list_edit
+    property alias content_source_editor: content_source_edit
+
     WebEngineView {
         id: content_web_view
         settings.pluginsEnabled: true
@@ -16,6 +22,18 @@ StackView {
     }
 
     ContentListEditor {
-        id: content_list_editor
+        id: content_list_edit
+
+        onCloseListEditor: {
+            content_view_handler.closeListEditor()
+        }
+    }
+
+    ContentSourceEditor {
+        id: content_source_edit
+
+        onCloseSourceEditor: {
+            content_view_handler.closeSourceEditor()
+        }
     }
 }

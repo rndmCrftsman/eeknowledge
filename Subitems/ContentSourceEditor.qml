@@ -4,28 +4,28 @@ import QtQuick.Controls 1.4
 import "Style"
 
 Rectangle {
-    id: content_list_editor_bg
+    id: content_source_editor_bg
     color: Style.bg_color 
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    signal closeListEditor()
+    signal closeSourceEditor()
 
     Rectangle {
-        id: button_cle_ok
+        id: button_cse_ok
         color: Style.bg_color
         radius: 5
         border.width: 1
         border.color: Style.fg_color
-        height: button_cle_ok_text.height + 10
-        width: button_cle_ok_text.width + 50
+        height: button_cse_ok_text.height + 10
+        width: button_cse_ok_text.width + 50
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 10
         anchors.right: parent.right
         anchors.rightMargin: 10
 
         Text {
-            id: button_cle_ok_text
+            id: button_cse_ok_text
             text: "OK"
             color: Style.fg_color
             anchors.centerIn: parent
@@ -34,8 +34,8 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             onClicked: { 
-                console.log("cle OK");
-                content_list_editor_bg.closeListEditor();
+                console.log("cse OK");
+                content_source_editor_bg.closeSourceEditor();
             }
         }
     }

@@ -36,22 +36,43 @@ Rectangle {
             ArticleMenu {
                 id: article_menu
                 objectName: "article_menu"
+                z:2
                 anchors.fill: undefined
+
+                onPushContentListEditor: {
+                    content_viewer.push(content_viewer.content_list_editor);
+                }
+
+                onPushContentSourceEditor: {
+                    content_viewer.push(content_viewer.content_source_editor);
+                }
+
+                Component.onCompleted: {
+                    listEditorButtonEnabled = true;
+                    listEditorButtonColor = Style.bg_color;
+                    sourceEditorButtonEnabled = true;
+                    sourceEditorButtonColor = Style.bg_color;
+                }
             }
 
-            // Rectangle {
-            //     id: content_view
-            //     objectName: "article_menu_options_bar"
-            //     color: Style.fg_color
-
-            //     Layout.fillWidth: true
-            //     Layout.fillHeight: true
-            // }
             ContentViewer {
                 id: content_viewer
                 objectName: "content_viewer"
+                z:1
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+
+                onCloseListEditor: {
+                    article_menu.listEditorButtonEnabled = true;
+                    article_menu.listEditorButtonColor = Style.bg_color;
+                    content_viewer.pop();
+                }
+
+                onCloseSourceEditor: {
+                    article_menu.sourceEditorButtonEnabled = true;
+                    article_menu.sourceEditorButtonColor = Style.bg_color;
+                    content_viewer.pop();
+                }
             }
         }
     }

@@ -1,4 +1,4 @@
-import sys
+import sys, os
 from PySide2.QtWidgets import QApplication, QVBoxLayout, QWidget
 from PySide2.QtQuick import QQuickView
 from PySide2.QtCore import QUrl, Qt, QObject, QAbstractListModel, QRect, QStringListModel
@@ -32,6 +32,7 @@ content_list = [
 # article_model_source.setStringList(article_list)
 content_model = ContentListModel(content_list)
 root_context.setContextProperty('content_model', content_model)
+root_context.setContextProperty('application_dir_path', os.getcwd())
 
 # view.setFlags(Qt.FramelessWindowHint)
 url = QUrl("Main.qml")

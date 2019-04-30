@@ -16,7 +16,7 @@ Rectangle {
 
         Rectangle {
             id: content_header
-            height: 120
+            height: text_field_filter.height + button_maximize_contents_list.height + button_add_remove.height + 40
             Layout.fillWidth: true
             Layout.minimumWidth: parent.Layout.minimumWidth
             color: Style.bg_color
@@ -126,7 +126,7 @@ Rectangle {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: console.log("Edit")
+                    onClicked: { console.log("Edit"); content_view_handler.push(content_list_editor) }
                 }
             }
 
@@ -157,6 +157,13 @@ Rectangle {
                 }
             }
         }
+
+        // Rectangle {
+        //         id: top_ruler
+        //         color: Style.fg_color
+        //         height: 1
+        //         Layout.fillWidth: true
+        // }
 
         ListView {
             visible: true
@@ -230,6 +237,48 @@ Rectangle {
                 width: parent.width
                 height: parent.height
                 color: "gray"
+            }
+        }
+
+        // Rectangle {
+        //         id: bottom_ruler
+        //         color: Style.fg_color
+        //         height: 1
+        //         Layout.fillWidth: true
+        // }
+        
+        Rectangle {
+            id: content_footer
+            height: button_edit_source.height + 20
+            Layout.fillWidth: true
+            Layout.minimumWidth: parent.Layout.minimumWidth
+            color: Style.bg_color
+
+            Rectangle {
+                id: button_edit_source
+                color: Style.bg_color
+                border.width: 1
+                border.color: Style.fg_color
+                radius: 5
+                clip: true
+                width: parent.width - 20
+                height: button_text_edit_source.height + 10
+                anchors.top : content_footer.top
+                anchors.topMargin: 10
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                
+                Text {
+                    id: button_text_edit_source
+                    anchors.centerIn: parent
+                    text: "Edit Source"
+                    color: Style.fg_color
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: console.log("Edit Source")
+                }
             }
         }
     }

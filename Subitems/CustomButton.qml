@@ -1,22 +1,23 @@
-import QtQuick 2.0
+import QtQuick 2.7
 import QtQuick.Layouts 1.5
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2
 import "Style"
 
 Rectangle {
-    color: Style.bg_color
-    border.width: 1
-    border.color: Style.fg_color
-    radius: 5
-    clip: true
-    height: button_text.height + 10
+    property alias buttonText: button_text.text
+    property alias buttonTextColor: button_text.color
+    property var widthPadding: 0
 
-    property var buttonText
+    color: Style.background_color
+    border.width: 1
+    radius: 5
+    clip: true 
+    height: button_text.height + 10
+    width: button_text.width + widthPadding
     
     Text {
         id: button_text
-        text: buttonText
         anchors.centerIn: parent
-        color: Style.fg_color
+        font.pointSize: 10
     }
 }

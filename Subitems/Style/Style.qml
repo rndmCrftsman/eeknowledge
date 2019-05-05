@@ -1,14 +1,17 @@
 pragma Singleton
-import QtQuick 2.0
+import QtQuick 2.7
 
 QtObject {
     property color white: "#FFFFFF"
-    property color dark: "#565656"
+    property color darkgray: "#505050"
+    property color gray: "#808080"
+    property color lightgray: "#A0A0A0"
     property color black: "#000000"
 
-    property color bg_color: dark
-
-    property color fg_color: white
+    property color background_color: darkgray
+    property color forground_color: white
+    property color inactive_color: gray
+    property color highlight_color: lightgray
 
     property QtObject title: QtObject {
         property QtObject text: QtObject {

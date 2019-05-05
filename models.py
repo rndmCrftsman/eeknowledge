@@ -1,28 +1,46 @@
 import sys
-from PySide2.QtCore import QAbstractListModel, Qt, QModelIndex
+from PySide2.QtCore import QAbstractListModel, Qt, QModelIndex, Slot, Signal
 
 class ContentListModel(QAbstractListModel):
 
     def __init__(self, content = [], parent = None):
         QAbstractListModel.__init__(self, parent)
         self._contents = content
-        # self._ContentNameRole = Qt.UserRole + 1,
-        # self._AuthorRole = Qt.UserRole + 2,
-        # self._TypeRole = Qt.UserRole + 3,
-        # self._TopicKeywordRole = Qt.UserRole + 4,
-        # self._PathRole = Qt.UserRole + 5,
-        # self._DescriptionRole = Qt.UserRole + 6
 
     def rowCount(self, parent):
         return len(self._contents)
 
     def data(self, index, role):
         if role == Qt.DisplayRole:
-            return self._contents[index.row()] # .get("content_name")
+            return self._contents[index.row()]
 
     def flags(self, index):
-        # if not index.isValid():
-        #     return Qt.NoItemFlags
-        # else:
-        #     return Qt.ItemIsSelectable
         return Qt.ItemIsSelectable
+
+    editorOpened = Signal(str)
+
+    @Slot(int)
+    def requestData(self, index):
+        item_list = [
+            self._contents[index].get("source_paths"),
+            self._contents[index].get("type"),
+            self._contents[index].get("content_name"),
+            self._contents[index].get("author"),
+            self._contents[index].get("topic"),
+            self._contents[index].get("description")
+        ]
+        item_list_str = ",".join(item_list)
+        self.editorOpened.emit(item_list_str)
+
+    @Slot(str, int)
+    def saveData(self, data, index):
+        item_list = data.split(',')
+        self._contents[index]["source_paths"] = item_list[0]
+        self._contents[index]["type"] = item_list[1]
+        self._contents[index]["content_name"] = item_list[2]
+        self._contents[index]["author"] = item_list[3]
+        self._contents[index]["topic"] = item_list[4]
+        self._contents[index]["description"] = item_list[5]
+        item_index = self.index(index, 0)
+        self.dataChanged.emit(item_index, item_index, 0)
+

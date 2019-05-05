@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.7
 import QtQuick.Layouts 1.5
 import "Style"
 
@@ -8,7 +8,7 @@ RowLayout {
 
     Rectangle {
         id: title
-        color: Style.bg_color
+        color: Style.background_color
         
         Layout.fillWidth: true
         Layout.fillHeight: true
@@ -16,7 +16,7 @@ RowLayout {
         Text {
             text: "ee|knowledge"
 
-            color: Style.fg_color
+            color: Style.forground_color
             font.pointSize: Style.title.text.ptSize
             font.bold: Style.title.text.bold
             font.letterSpacing: Style.title.letterSpacing
@@ -29,7 +29,7 @@ RowLayout {
 
     // Rectangle {
     //     id: close_button
-    //     color: Style.bg_color
+    //     color: Style.background_color
         
     //     Layout.fillHeight: true
     //     width: 50
@@ -39,7 +39,7 @@ RowLayout {
     //     Text {
     //         text: "x"
 
-    //         color: Style.fg_color
+    //         color: Style.forground_color
     //         font.pointSize: Style.title.text.ptSize
     //         font.bold: Style.title.text.bold
 

@@ -1,7 +1,8 @@
-import QtQuick 2.0
+import QtQuick 2.7
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.5
-import QtQuick.Controls 1.4
+import QtQuick.Controls 1.4 as Ctrl1
+import QtQuick.Controls 2.2
 import "Subitems"
 import "Subitems/Style"
 
@@ -11,7 +12,7 @@ Rectangle {
 
     width: 1200
     height: 800
-    color: Style.fg_color
+    color: Style.forground_color
 
     ColumnLayout {
         anchors.fill: parent
@@ -26,7 +27,7 @@ Rectangle {
             Layout.maximumHeight: 50
         }
 
-        SplitView {
+        Ctrl1.SplitView {
             id: main_splitview
             objectName: "main_splitview"
             orientation: Qt.Horizontal
@@ -41,6 +42,7 @@ Rectangle {
 
                 onPushContentListEditor: {
                     content_viewer.push(content_viewer.content_list_editor);
+                    articleListIsSelectable = false
                 }
 
                 onPushContentSourceEditor: {
@@ -49,9 +51,14 @@ Rectangle {
 
                 Component.onCompleted: {
                     listEditorButtonEnabled = true;
-                    listEditorButtonColor = Style.bg_color;
+                    listEditorButtonColor = Style.background_color;
+                    listEditorButtonTextColor = Style.forground_color;
+                    listEditorButtonBorderColor = Style.forground_color;
                     sourceEditorButtonEnabled = true;
-                    sourceEditorButtonColor = Style.bg_color;
+                    sourceEditorButtonColor = Style.background_color;
+                    sourceEditorButtonTextColor = Style.forground_color;
+                    sourceEditorButtonBorderColor = Style.forground_color;
+                    articleListIsSelectable = true;
                 }
             }
 
@@ -62,16 +69,28 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
+                articleListCurrentIndex: article_menu.articleListCurrentIndex 
+
                 onCloseListEditor: {
                     article_menu.listEditorButtonEnabled = true;
-                    article_menu.listEditorButtonColor = Style.bg_color;
+                    article_menu.listEditorButtonColor = Style.background_color;
+                    article_menu.listEditorButtonBorderColor = Style.forground_color;
+                    article_menu.listEditorButtonTextColor = Style.forground_color;
+                    console.log("Close List Editor");
                     content_viewer.pop();
                 }
 
                 onCloseSourceEditor: {
                     article_menu.sourceEditorButtonEnabled = true;
-                    article_menu.sourceEditorButtonColor = Style.bg_color;
+                    article_menu.sourceEditorButtonColor = Style.background_color;
+                    article_menu.sourceEditorButtonBorderColor = Style.forground_color;
+                    article_menu.sourceEditorButtonTextColor = Style.forground_color;
+                    console.log("Close Source Editor");
                     content_viewer.pop();
+                }
+
+                onEnableArticleList: {
+                    article_menu.articleListIsSelectable = true;
                 }
             }
         }

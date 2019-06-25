@@ -43,6 +43,7 @@ StackView {
         id: content_web_view
         settings.pluginsEnabled: true
         settings.javascriptEnabled: true
+        // url: "file:///" + application_dir_path + "/test.html"
         url: "file:///" + application_dir_path + "/pdfjs-2.0.943-dist/web/viewer.html" + "?file=" + content_path 
     }
 }

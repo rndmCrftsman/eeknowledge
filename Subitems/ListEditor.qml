@@ -157,109 +157,23 @@ Rectangle {
         anchors.top: description_label.bottom
         anchors.topMargin: 10
     }
-
-    Text {
-        id: source_format_label
-        text: "Source Format"
-        color: Style.forground_color
-        font.bold: true
-        anchors.left: type_text_field.right
-        anchors.leftMargin: 30
-        anchors.top: source_paths.bottom
-        anchors.topMargin: 20
-    }
-
-    TextField {
-        id: source_format_text_field
-        height: 30
-        anchors.left: type_text_field.right
-        anchors.leftMargin: 30
-        anchors.right: source_paths.right
-        anchors.top: source_format_label.bottom
-        anchors.topMargin: 10
-    }
     
     Text {
-        id: stylesheet_1_label
-        text: "Style Sheet 1"
+        id: format_label
+        text: "Format"
         color: Style.forground_color
         font.bold: true
-        anchors.left: type_text_field.right
-        anchors.leftMargin: 30
-        anchors.top: source_format_text_field.bottom
-        anchors.topMargin: 20
-    }
-
-    TextField {
-        id: stylesheet_1_text_field
-        height: 30
-        anchors.left: type_text_field.right
-        anchors.leftMargin: 30
-        anchors.right: source_paths.right
-        anchors.top: stylesheet_1_label.bottom
-        anchors.topMargin: 10
-    }
-    
-    Text {
-        id: interim_format_label
-        text: "Interim Format"
-        color: Style.forground_color
-        font.bold: true
-        anchors.left: type_text_field.right
-        anchors.leftMargin: 30
-        anchors.top: stylesheet_1_text_field.bottom
-        anchors.topMargin: 20
-    }
-
-    TextField {
-        id: interim_format_text_field
-        height: 30
-        anchors.left: type_text_field.right
-        anchors.leftMargin: 30
-        anchors.right: source_paths.right
-        anchors.top: interim_format_label.bottom
-        anchors.topMargin: 10
-    }
-
-    Text {
-        id: stylesheet_2_label
-        text: "Style Sheet 2"
-        color: Style.forground_color
-        font.bold: true
-        anchors.left: type_text_field.right
-        anchors.leftMargin: 30
-        anchors.top: interim_format_text_field.bottom
+        anchors.left: description_text_field.left
+        anchors.top: description_text_field.bottom
         anchors.topMargin: 20
     } 
 
     TextField {
-        id: stylesheet_2_text_field
+        id: format_text_field
+        width: (parent.width-20)/3 - 10
         height: 30
-        anchors.left: type_text_field.right
-        anchors.leftMargin: 30
-        anchors.right: source_paths.right
-        anchors.top: stylesheet_2_label.bottom
-        anchors.topMargin: 10
-    }
-
-    Text {
-        id: end_format_label
-        text: "End Format"
-        color: Style.forground_color
-        font.bold: true
-        anchors.left: type_text_field.right
-        anchors.leftMargin: 30
-        anchors.top: stylesheet_2_text_field.bottom
-        anchors.topMargin: 20
-    } 
-
-    TextField {
-        id: end_format_text_field
-        height: 30
-        anchors.left: type_text_field.right
-        anchors.leftMargin: 30
-        anchors.right: source_paths.right
-        anchors.top: end_format_label.bottom
+        anchors.left: format_label.left
+        anchors.top: format_label.bottom
         anchors.topMargin: 10
     }
 
@@ -297,7 +211,8 @@ Rectangle {
                     content_name_text_field.text,
                     author_text_field.text,
                     topic_text_field.text,
-                    description_text_field.text
+                    description_text_field.text,
+                    format_text_field.text
                 ];
                 var data = data_list.join(',');
                 console.log(data)
@@ -324,6 +239,7 @@ Rectangle {
             author_text_field.text = content[3]
             topic_text_field.text = content[4]
             description_text_field.text = content[5]
+            format_text_field.text = content[6]
         }
     }
 }

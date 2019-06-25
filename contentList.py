@@ -13,15 +13,17 @@ class ContentList():
                 "content_name": "Hannes 1st one",
                 "author" : "Hannes Stoll",
                 "topic" : "Initial Electronics",
-                "description" : "OOh Yess :D"
+                "description" : "OOh Yess :D",
+                "format" : "PDF"
             },
             {   
                 "source_paths" : "noooo",
-                "type" : "Exercise",
+                "type" : "Tool",
                 "content_name": "Let's go",
                 "author" : "Hannes Stoll",
                 "topic" : "Signals and Systems",
-                "description" : ":P"
+                "description" : ":P",
+                "format" : "JS"
             }
         ]
 

@@ -55,4 +55,3 @@ main_window = view.rootObject()
 view.show()
 
 app.exec_()
-

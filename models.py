@@ -27,7 +27,8 @@ class ContentListModel(QAbstractListModel):
             self._contents[index].get("content_name"),
             self._contents[index].get("author"),
             self._contents[index].get("topic"),
-            self._contents[index].get("description")
+            self._contents[index].get("description"),
+            self._contents[index].get("format")
         ]
         item_list_str = ",".join(item_list)
         self.editorOpened.emit(item_list_str)
@@ -41,6 +42,7 @@ class ContentListModel(QAbstractListModel):
         self._contents[index]["author"] = item_list[3]
         self._contents[index]["topic"] = item_list[4]
         self._contents[index]["description"] = item_list[5]
+        self._contents[index]["format"] = item_list[6]
         item_index = self.index(index, 0)
         self.dataChanged.emit(item_index, item_index, 0)
 

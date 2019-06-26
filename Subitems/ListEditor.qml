@@ -75,7 +75,46 @@ Rectangle {
 
     FileDialog {
         id: file_dialog_source_path
+        title: "Choose a source file"
+        selectMultiple: false
+        selectFolder: false
+        nameFilters: ["PDF (*.pdf)", "HTML (*.htm, *.html)"]
+        onAccepted: {
+            // console.log("accepted with the following path: ")
+            // console.log(file_dialog_source_path.fileUrl)
+            // console.log("file://" + application_dir_path)
+            var selected_path = file_dialog_source_path.fileUrl.toString()
+            var path_from_root = selected_path.slice(-(selected_path.length-7));
+            var fs_inidcator = path_from_root.slice(0,1)
+            if (fs_inidcator == "/") {
+                // console.log("unix")
+                var source_path_dirs = path_from_root.split("/")
+                // console.log(source_path_dirs)
+                var app_path_dirs = application_dir_path.split("/")
+                // console.log(app_path_dirs)
+                var common_dirs = 0
+                while (source_path_dirs[common_dirs] == app_path_dirs[common_dirs]) {
+                    common_dirs += 1
+                }
+                // console.log(common_dirs)
+                var rel_path_dirs = [""]
+                var i
+                for (i = 0; i < (app_path_dirs.length - common_dirs); i++) {
+                    rel_path_dirs.push("..")
+                }
+                // console.log(rel_path_dirs)
+                var rel_path_dirs = rel_path_dirs.concat(source_path_dirs.slice(common_dirs, source_path_dirs.length))
+                // console.log(rel_path_dirs)
+                source_path_text_field.text = rel_path_dirs.join("/")
+            }
+            if (fs_inidcator == "c") {
+                console.log("windows")
+            }
+        }
 
+        onRejected: {
+            console.log("Canceled")            
+        }
     }
 
     CustomButton {

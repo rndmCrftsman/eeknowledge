@@ -46,7 +46,7 @@ StackView {
         url: {
             "file:///" + application_dir_path + 
             ((content_format == "PDF") ? "/pdfjs-2.0.943-dist/web/viewer.html?file=file:///" + application_dir_path : "") // add path to PDF viewer
-            + "/" + content_path 
+            + content_path 
         }
     }
 

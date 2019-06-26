@@ -74,7 +74,7 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        console.log(">>")
+                        // console.log(">>")
                         rectangle_content_menu.anchors.fill = rectangle_content_menu.parent;
                         rectangle_content_menu.width = undefined
                     }
@@ -98,7 +98,7 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        console.log("<<")
+                        // console.log("<<")
                         rectangle_content_menu.anchors.fill = undefined;
                         rectangle_content_menu.width = 250
                     }
@@ -113,7 +113,6 @@ Rectangle {
             CustomButton {
                 id: button_list_edit
                 buttonText: "List Editor"
-                // width: parent.width/2 - 15
                 anchors.top : button_maximize_contents_list.bottom
                 anchors.topMargin: 10
                 anchors.left: parent.left
@@ -129,11 +128,10 @@ Rectangle {
                     enabled: listEditorButtonEnabled
                     anchors.fill: parent
                     onClicked: { 
-                        console.log("List Editor"); 
+                        // console.log("List Editor"); 
                         if(button_list_edit.buttonText == "List Editor") {
                             rectangle_content_menu.pushContentListEditor(); 
                             listEditorButtonEnabled = false;
-                            // listEditorButtonColor = Style.inactive_color;
                             listEditorButtonTextColor = Style.inactive_color;
                             listEditorButtonBorderColor = Style.inactive_color;
                             content_model.requestData(articleListCurrentIndex);
@@ -141,34 +139,7 @@ Rectangle {
                     }
                 }
             }
-
-            // CustomButton {
-            //     id: button_add_remove
-            //     buttonText: "Add/Remove"
-            //     width: parent.width/2 - 15
-            //     anchors.top : button_maximize_contents_list.bottom
-            //     anchors.topMargin: 10
-            //     anchors.right: parent.right
-            //     anchors.rightMargin: 10
-
-            //     MouseArea {
-            //         anchors.fill: parent
-            //         onClicked: console.log("Add/Remove")
-            //     }
-
-            //     Component.onCompleted: {
-            //         buttonTextColor = Style.forground_color
-            //         border.color = Style.forground_color
-            //     }
-            // }
         }
-
-        // Rectangle {
-        //         id: top_ruler
-        //         color: Style.forground_color
-        //         height: 1
-        //         Layout.fillWidth: true
-        // }
 
         ListView {
             visible: true
@@ -239,6 +210,7 @@ Rectangle {
                         if(articleListIsSelectable) {
                             content_list.currentIndex = index;
                             articleListCurrentIndex = index;
+                            content_model.requestPathAndFormat(articleListCurrentIndex); 
                         }
                     }
                 }
@@ -249,15 +221,12 @@ Rectangle {
                 height: parent.height
                 color: Style.highlight_color 
             }
+
+            Component.onCompleted: {
+                content_model.requestPathAndFormat(articleListCurrentIndex); 
+            }
         }
 
-        // Rectangle {
-        //         id: bottom_ruler
-        //         color: Style.forground_color
-        //         height: 1
-        //         Layout.fillWidth: true
-        // }
-        
         Rectangle {
             id: content_footer
             height: button_source_edit.height + 20
@@ -282,11 +251,10 @@ Rectangle {
                     enabled: sourceEditorButtonEnabled
                     anchors.fill: parent
                     onClicked: { 
-                        console.log("Source Editor"); 
+                        // console.log("Source Editor"); 
                         if(button_source_edit.buttonText == "Source Editor") {
                             rectangle_content_menu.pushContentSourceEditor(); 
                             sourceEditorButtonEnabled = false;
-                            // sourceEditorButtonColor = Style.inactive_color;
                             sourceEditorButtonTextColor = Style.inactive_color;
                             sourceEditorButtonBorderColor = Style.inactive_color;
                         }

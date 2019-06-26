@@ -25,7 +25,7 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                console.log("cse OK");
+                // console.log("cse OK");
                 content_source_editor_bg.closeSourceEditor();
             }
         }

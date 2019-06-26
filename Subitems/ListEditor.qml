@@ -15,8 +15,8 @@ Rectangle {
     property int articleListCurrentIndex
 
     Text {
-        id: source_label
-        text: "Source Paths"
+        id: source_path_label
+        text: "Source Path"
         color: Style.forground_color
         font.bold: true
         anchors.top: parent.top
@@ -25,42 +25,51 @@ Rectangle {
         anchors.leftMargin: 10
     }
 
-    Rectangle {
-        id: source_paths_background
+    // Rectangle {
+    //     id: source_path_background
 
-        color: Style.background_color
-        border.color: Style.forground_color
-        border.width: 1
-        radius: 5
-        clip: true
+    //     color: Style.background_color
+    //     border.color: Style.forground_color
+    //     border.width: 1
+    //     radius: 5
+    //     clip: true
 
-        height: source_paths.height
-        width: source_paths.width
+    //     height: source_path.height
+    //     width: source_path.width
 
-        anchors.top: source_paths.top
-        anchors.left: source_paths.left
-    }
+    //     anchors.top: source_path.top
+    //     anchors.left: source_path.left
+    // }
 
-    ScrollView {
-        id: source_path_view
+    // ScrollView {
+    //     id: source_path_view
 
-        height: parent.height/3 - source_label.height - 25
-        width: parent.width - 20
+    //     height: parent.height/3 - source_label.height - 25
+    //     width: parent.width - 20
 
-        anchors.top: source_label.bottom
+    //     anchors.top: source_label.bottom
+    //     anchors.topMargin: 10
+    //     anchors.left: parent.left 
+    //     anchors.leftMargin: 10
+    // }
+
+    // TextArea {
+    //     id: source_path
+    //     color: Style.forground_color
+    //     anchors.fill: source_path_view
+    //     topPadding: 10
+    //     bottomPadding: 10
+    //     leftPadding: 10
+    //     rightPadding: 10
+    // }
+    
+    TextField {
+        id: source_path_text_field
+        width: (parent.width-20)/3 - 10
+        height: 30
+        anchors.left: source_path_label.left
+        anchors.top: source_path_label.bottom
         anchors.topMargin: 10
-        anchors.left: parent.left 
-        anchors.leftMargin: 10
-    }
-
-    TextArea {
-        id: source_paths
-        color: Style.forground_color
-        anchors.fill: source_path_view
-        topPadding: 10
-        bottomPadding: 10
-        leftPadding: 10
-        rightPadding: 10
     }
 
     Text {
@@ -68,8 +77,8 @@ Rectangle {
         text: "Type"
         color: Style.forground_color
         font.bold: true
-        anchors.left: source_paths.left
-        anchors.top: source_paths.bottom
+        anchors.left: source_path_text_field.left
+        anchors.top: source_path_text_field.bottom
         anchors.topMargin: 20
     }
 
@@ -187,6 +196,14 @@ Rectangle {
         anchors.rightMargin: 10
         border.color: Style.forground_color
         buttonTextColor: Style.forground_color
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                content_list_editor.closeListEditor();
+                content_list_editor.enableArticleList();
+            }
+        }
     }
     CustomButton {
         id: button_cle_ok 
@@ -202,11 +219,11 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                console.log("cle OK");
+                // console.log("cle OK");
                 content_list_editor.closeListEditor();
                 content_list_editor.enableArticleList();
                 var data_list = [ 
-                    source_paths.text,
+                    source_path_text_field.text,
                     type_text_field.text,
                     content_name_text_field.text,
                     author_text_field.text,
@@ -215,8 +232,9 @@ Rectangle {
                     format_text_field.text
                 ];
                 var data = data_list.join(',');
-                console.log(data)
+                // console.log(data)
                 content_model.saveData(data, articleListCurrentIndex)
+                content_model.requestPathAndFormat(articleListCurrentIndex)
             }
         }
     }
@@ -230,10 +248,10 @@ Rectangle {
         target: content_list_editor
 
         onReEditorOpened: {
-            console.log("Hallo die Party geht loos");
-            console.log(data);
+            // console.log("Hallo die Party geht loos");
+            // console.log(data);
             var content = data.split(',')
-            source_paths.text = content[0]
+            source_path_text_field.text = content[0]
             type_text_field.text = content[1]
             content_name_text_field.text = content[2]
             author_text_field.text = content[3]

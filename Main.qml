@@ -76,7 +76,7 @@ Rectangle {
                     article_menu.listEditorButtonColor = Style.background_color;
                     article_menu.listEditorButtonBorderColor = Style.forground_color;
                     article_menu.listEditorButtonTextColor = Style.forground_color;
-                    console.log("Close List Editor");
+                    // console.log("Close List Editor");
                     content_viewer.pop();
                 }
 
@@ -85,7 +85,7 @@ Rectangle {
                     article_menu.sourceEditorButtonColor = Style.background_color;
                     article_menu.sourceEditorButtonBorderColor = Style.forground_color;
                     article_menu.sourceEditorButtonTextColor = Style.forground_color;
-                    console.log("Close Source Editor");
+                    // console.log("Close Source Editor");
                     content_viewer.pop();
                 }
 

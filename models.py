@@ -22,7 +22,7 @@ class ContentListModel(QAbstractListModel):
     @Slot(int)
     def requestData(self, index):
         item_list = [
-            self._contents[index].get("source_paths"),
+            self._contents[index].get("source_path"),
             self._contents[index].get("type"),
             self._contents[index].get("content_name"),
             self._contents[index].get("author"),
@@ -36,7 +36,7 @@ class ContentListModel(QAbstractListModel):
     @Slot(str, int)
     def saveData(self, data, index):
         item_list = data.split(',')
-        self._contents[index]["source_paths"] = item_list[0]
+        self._contents[index]["source_path"] = item_list[0]
         self._contents[index]["type"] = item_list[1]
         self._contents[index]["content_name"] = item_list[2]
         self._contents[index]["author"] = item_list[3]
@@ -46,3 +46,13 @@ class ContentListModel(QAbstractListModel):
         item_index = self.index(index, 0)
         self.dataChanged.emit(item_index, item_index, 0)
 
+    pathAndFormatChanged = Signal(str)
+
+    @Slot(int)
+    def requestPathAndFormat(self, index):
+        item_list = [
+            self._contents[index].get("source_path"),
+            self._contents[index].get("format")
+        ]
+        item_list_str = ','.join(item_list)
+        self.pathAndFormatChanged.emit(item_list_str)

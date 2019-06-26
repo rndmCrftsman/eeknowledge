@@ -1,6 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Layouts 1.5
 import QtQuick.Controls 2.2
+import QtQuick.Dialogs 1.0
 import "Style"
 
 Rectangle {
@@ -65,11 +66,34 @@ Rectangle {
     
     TextField {
         id: source_path_text_field
-        width: (parent.width-20)/3 - 10
+        width: (parent.width-20)*2/3
         height: 30
         anchors.left: source_path_label.left
         anchors.top: source_path_label.bottom
         anchors.topMargin: 10
+    }
+
+    FileDialog {
+        id: file_dialog_source_path
+
+    }
+
+    CustomButton {
+        id: button_source_path_file_dialog
+        buttonText: "Browse..."
+        widthPadding: 60 
+        anchors.verticalCenter: source_path_text_field.verticalCenter
+        anchors.left: source_path_text_field.right
+        anchors.leftMargin: 10
+        border.color: Style.forground_color
+        buttonTextColor: Style.forground_color
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                file_dialog_source_path.open()
+            }
+        }
     }
 
     Text {
@@ -84,7 +108,7 @@ Rectangle {
 
     TextField {
         id: type_text_field
-        width: (parent.width-20)/3 - 10
+        width: (parent.width-20)*2/3
         height: 30
         anchors.left: type_label.left
         anchors.top: type_label.bottom
@@ -103,7 +127,7 @@ Rectangle {
 
     TextField {
         id: content_name_text_field
-        width: (parent.width-20)/3 - 10
+        width: (parent.width-20)*2/3
         height: 30
         anchors.left: content_name_label.left
         anchors.top: content_name_label.bottom
@@ -122,7 +146,7 @@ Rectangle {
 
     TextField {
         id: author_text_field
-        width: (parent.width-20)/3 - 10
+        width: (parent.width-20)*2/3
         height: 30
         anchors.left: author_label.left
         anchors.top: author_label.bottom
@@ -141,7 +165,7 @@ Rectangle {
 
     TextField {
         id: topic_text_field
-        width: (parent.width-20)/3 - 10
+        width: (parent.width-20)*2/3
         height: 30
         anchors.left: topic_label.left
         anchors.top: topic_label.bottom
@@ -160,7 +184,7 @@ Rectangle {
 
     TextField {
         id: description_text_field
-        width: (parent.width-20)/3 - 10
+        width: (parent.width-20)*2/3
         height: 30
         anchors.left: description_label.left
         anchors.top: description_label.bottom
@@ -179,7 +203,7 @@ Rectangle {
 
     TextField {
         id: format_text_field
-        width: (parent.width-20)/3 - 10
+        width: (parent.width-20)*2/3
         height: 30
         anchors.left: format_label.left
         anchors.top: format_label.bottom
@@ -205,6 +229,7 @@ Rectangle {
             }
         }
     }
+
     CustomButton {
         id: button_cle_ok 
         buttonText: "OK"

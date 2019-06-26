@@ -41,7 +41,11 @@ content_model = ContentListModel(content_list)
 
 
 root_context.setContextProperty('content_model', content_model)
-root_context.setContextProperty('application_dir_path', os.getcwd())
+app_dir_path = os.getcwd()
+print(app_dir_path)
+app_dir_path_unix = app_dir_path.replace("\\", "/")
+print(app_dir_path_unix)
+root_context.setContextProperty('application_dir_path', app_dir_path_unix)
 
 # view.setFlags(Qt.FramelessWindowHint)
 url = QUrl("Main.qml")

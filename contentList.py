@@ -8,7 +8,7 @@ class ContentList():
 
     def loadFile(self, file):
         self.content = [
-            {   "source_path" : "test.pdf",
+            {   "source_path" : "/test.pdf",
                 "type" : "Article",
                 "content_name": "Hannes 1st one",
                 "author" : "Hannes Stoll",
@@ -17,7 +17,7 @@ class ContentList():
                 "format" : "PDF"
             },
             {   
-                "source_path" : "test.html",
+                "source_path" : "/test.html",
                 "type" : "Tool",
                 "content_name": "Let's go",
                 "author" : "Hannes Stoll",

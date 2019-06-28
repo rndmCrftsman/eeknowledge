@@ -12,6 +12,7 @@ Rectangle {
 
     signal closeListEditor()
     signal enableArticleList()
+    signal enableAddButton()
 
     property int articleListCurrentIndex
 
@@ -113,7 +114,7 @@ Rectangle {
         }
 
         onRejected: {
-            console.log("Canceled")            
+            // console.log("Canceled")            
         }
     }
 
@@ -155,8 +156,8 @@ Rectangle {
     }
     
     Text {
-        id: content_name_label
-        text: "Content Name"
+        id: name_label
+        text: "Name"
         color: Style.forground_color
         font.bold: true
         anchors.left: type_text_field.left
@@ -165,11 +166,11 @@ Rectangle {
     }
 
     TextField {
-        id: content_name_text_field
+        id: name_text_field
         width: (parent.width-20)*2/3
         height: 30
-        anchors.left: content_name_label.left
-        anchors.top: content_name_label.bottom
+        anchors.left: name_label.left
+        anchors.top: name_label.bottom
         anchors.topMargin: 10
     }
     
@@ -178,8 +179,8 @@ Rectangle {
         text: "Author"
         color: Style.forground_color
         font.bold: true
-        anchors.left: content_name_text_field.left
-        anchors.top: content_name_text_field.bottom
+        anchors.left: name_text_field.left
+        anchors.top: name_text_field.bottom
         anchors.topMargin: 20
     }
 
@@ -193,8 +194,8 @@ Rectangle {
     }
 
     Text {
-        id: topic_label
-        text: "Topic Keywords"
+        id: keyword_label
+        text: "Keywords"
         color: Style.forground_color
         font.bold: true
         anchors.left: author_text_field.left
@@ -203,11 +204,11 @@ Rectangle {
     } 
 
     TextField {
-        id: topic_text_field
+        id: keyword_text_field
         width: (parent.width-20)*2/3
         height: 30
-        anchors.left: topic_label.left
-        anchors.top: topic_label.bottom
+        anchors.left: keyword_label.left
+        anchors.top: keyword_label.bottom
         anchors.topMargin: 10
     }
 
@@ -216,8 +217,8 @@ Rectangle {
         text: "Description"
         color: Style.forground_color
         font.bold: true
-        anchors.left: topic_text_field.left
-        anchors.top: topic_text_field.bottom
+        anchors.left: keyword_text_field.left
+        anchors.top: keyword_text_field.bottom
         anchors.topMargin: 20
     } 
 
@@ -263,8 +264,18 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             onClicked: {
+                if ((type_text_field.text === "") &&
+                    (name_text_field.text === "") &&
+                    (author_text_field.text === "") &&
+                    (keyword_text_field.text === "") &&
+                    (description_text_field.text === "") &&
+                    (format_text_field.text === "")
+                    ) {
+                    source_model.removeData(filter_proxy_model.mapToSource(filter_proxy_model.index(articleListCurrentIndex, 0)).row)
+                }
                 content_list_editor.closeListEditor();
                 content_list_editor.enableArticleList();
+                content_list_editor.enableAddButton();
             }
         }
     }
@@ -284,28 +295,29 @@ Rectangle {
             anchors.fill: parent
             onClicked: {
                 // console.log("cle OK");
-                content_list_editor.closeListEditor();
-                content_list_editor.enableArticleList();
                 var data_list = [ 
                     source_path_text_field.text,
                     type_text_field.text,
-                    content_name_text_field.text,
+                    name_text_field.text,
                     author_text_field.text,
-                    topic_text_field.text,
+                    keyword_text_field.text,
                     description_text_field.text,
                     format_text_field.text
                 ];
                 var data = data_list.join(',');
                 // console.log(data)
-                content_model.saveData(data, articleListCurrentIndex)
-                content_model.requestPathAndFormat(articleListCurrentIndex)
+                source_model.saveData(data, filter_proxy_model.mapToSource(filter_proxy_model.index(articleListCurrentIndex, 0)).row) 
+                source_model.requestPathAndFormat(filter_proxy_model.mapToSource(filter_proxy_model.index(articleListCurrentIndex, 0)).row)
+                content_list_editor.closeListEditor();
+                content_list_editor.enableArticleList();
+                content_list_editor.enableAddButton();
             }
         }
     }
 
     signal reEditorOpened(string data)
     Component.onCompleted: {
-        content_model.editorOpened.connect(reEditorOpened);
+        source_model.editorOpened.connect(reEditorOpened);
     } 
     
     Connections {
@@ -317,9 +329,9 @@ Rectangle {
             var content = data.split(',')
             source_path_text_field.text = content[0]
             type_text_field.text = content[1]
-            content_name_text_field.text = content[2]
+            name_text_field.text = content[2]
             author_text_field.text = content[3]
-            topic_text_field.text = content[4]
+            keyword_text_field.text = content[4]
             description_text_field.text = content[5]
             format_text_field.text = content[6]
         }

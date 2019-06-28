@@ -10,18 +10,18 @@ class ContentList():
         self.content = [
             {   "source_path" : "/test.pdf",
                 "type" : "Article",
-                "content_name": "Hannes 1st one",
+                "name": "Hannes 1st one",
                 "author" : "Hannes Stoll",
-                "topic" : "Initial Electronics",
+                "keyword" : "Initial Electronics",
                 "description" : "OOh Yess :D",
                 "format" : "PDF"
             },
             {   
                 "source_path" : "/test.html",
                 "type" : "Tool",
-                "content_name": "Let's go",
+                "name": "Let's go",
                 "author" : "Hannes Stoll",
-                "topic" : "Signals and Systems",
+                "keyword" : "Signals and Systems",
                 "description" : ":P",
                 "format" : "JS"
             }

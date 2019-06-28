@@ -1,22 +1,22 @@
 import QtQuick 2.7
 import QtQuick.Layouts 1.5
 import QtQuick.Controls 2.2
+import QtQuick.Dialogs 1.1
 import "Style"
 
 Rectangle {
     id: rectangle_content_menu
 
     signal pushContentListEditor()
-    signal pushContentSourceEditor()
     
+    property var addButtonEnabled
+    property var addButtonColor
+    property var addButtonTextColor
+    property var addButtonBorderColor
     property var listEditorButtonEnabled
     property var listEditorButtonColor
     property var listEditorButtonTextColor
     property var listEditorButtonBorderColor
-    property var sourceEditorButtonEnabled
-    property var sourceEditorButtonColor
-    property var sourceEditorButtonTextColor
-    property var sourceEditorButtonBorderColor
     property var articleListIsSelectable 
     property var articleListCurrentIndex: 0
 
@@ -31,7 +31,7 @@ Rectangle {
 
         Rectangle {
             id: content_header
-            height: text_field_filter.height + button_maximize_contents_list.height + button_list_edit.height + 40
+            height: text_field_filter.height + button_maximize_content_list.height + button_list_edit.height + 40
             Layout.fillWidth: true
             Layout.minimumWidth: parent.Layout.minimumWidth
             color: Style.background_color
@@ -44,26 +44,59 @@ Rectangle {
                 y: 10
                 font.pointSize: 10
                 anchors.horizontalCenter: parent.horizontalCenter
-            }
 
-            CheckBox {
-                id: check_box_case_sensitive
-                font.pointSize: 10
-                anchors.verticalCenter: button_maximize_contents_list.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-            }
-
-            Text {
-                text: "Case Sensitive"
-                color: Style.forground_color
-                anchors.left: check_box_case_sensitive.right
-                anchors.leftMargin: 3
-                anchors.verticalCenter: check_box_case_sensitive.verticalCenter
+                onTextChanged: {
+                    var type_filter = ""
+                    var name_filter = ""
+                    var author_filter = ""
+                    var keyword_filter = ""
+                    var description_filter = ""
+                    var format_filter = ""
+                    var data = text
+                    var filters = data.split('@')
+                    filters.shift()
+                    var i
+                    for(i = 0; i < filters.length; i++) {
+                        var filter = filters[i].split(':')
+                        var filter_indicator = filter[0]
+                        if(filter.length > 1) {
+                            switch(true) {
+                                case /^[Tt]ype$/.test(filter_indicator): {
+                                    type_filter = filter[1]
+                                    break;
+                                }
+                                case /^[Nn]ame$/.test(filter_indicator): {
+                                    name_filter = filter[1]
+                                    break;
+                                }
+                                case /^[Aa]uthor$/.test(filter_indicator): {
+                                    author_filter = filter[1]
+                                    break;
+                                }
+                                case /^[Kk]eyword[s]{0,1}$/.test(filter_indicator): {
+                                    keyword_filter = filter[1]
+                                    break;
+                                }
+                                case /^[Dd]escription$/.test(filter_indicator): {
+                                    description_filter = filter[1]
+                                    break;
+                                }
+                                case /^[Ff]ormat$/.test(filter_indicator): {
+                                    format_filter = filter[1]
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    filter_proxy_model.updateFilters(type_filter, name_filter, author_filter, keyword_filter, description_filter, format_filter)
+                    content_list.currentIndex = 0
+                    articleListCurrentIndex = 0
+                    source_model.requestPathAndFormat(filter_proxy_model.mapToSource(filter_proxy_model.index(articleListCurrentIndex, 0)).row)
+                }
             }
 
             CustomButton {
-                id: button_maximize_contents_list
+                id: button_maximize_content_list
                 buttonText: ">>"
                 width: button_list_edit.width/2 - 5
                 anchors.top: text_field_filter.bottom
@@ -87,12 +120,12 @@ Rectangle {
             }
 
             CustomButton {
-                id: button_minimize_contents_list
+                id: button_minimize_content_list
                 buttonText: "<<"
                 width: button_list_edit.width/2 - 5
                 anchors.top: text_field_filter.bottom
                 anchors.topMargin: 10
-                anchors.right: button_maximize_contents_list.left
+                anchors.right: button_maximize_content_list.left
                 anchors.rightMargin: 10
 
                 MouseArea {
@@ -113,7 +146,7 @@ Rectangle {
             CustomButton {
                 id: button_list_edit
                 buttonText: "List Editor"
-                anchors.top : button_maximize_contents_list.bottom
+                anchors.top : button_maximize_content_list.bottom
                 anchors.topMargin: 10
                 anchors.left: parent.left
                 anchors.leftMargin: 10
@@ -134,7 +167,7 @@ Rectangle {
                             listEditorButtonEnabled = false;
                             listEditorButtonTextColor = Style.inactive_color;
                             listEditorButtonBorderColor = Style.inactive_color;
-                            content_model.requestData(articleListCurrentIndex);
+                            source_model.requestData(filter_proxy_model.mapToSource(filter_proxy_model.index(articleListCurrentIndex, 0)).row);
                         }
                     }
                 }
@@ -150,8 +183,10 @@ Rectangle {
             Layout.fillWidth: true
             Layout.minimumWidth: parent.Layout.minimumWidth
             clip: true
-            model: content_model
+
+            model: filter_proxy_model
             delegate: Rectangle {
+                id: content_item_frame
                 width: parent.width
                 height: content_item.height + 20
                 color: "#00000000"
@@ -171,8 +206,8 @@ Rectangle {
                     }
 
                     Text {
-                        id: item_content_name
-                        text: display.content_name
+                        id: item_name
+                        text: display.name
                         color: Style.forground_color
                         font.pixelSize: 16
                         font.bold: true
@@ -182,12 +217,12 @@ Rectangle {
                     }
 
                     Text {
-                        id: item_topic
-                        text: display.topic
+                        id: item_keyword
+                        text: display.keyword
                         color: Style.forground_color
                         font.pixelSize: 12
                         font.bold: false
-                        anchors.top: item_content_name.bottom
+                        anchors.top: item_name.bottom
                         anchors.left: parent.left
                         anchors.leftMargin: 10
                     }
@@ -198,7 +233,7 @@ Rectangle {
                         color: Style.forground_color
                         font.pixelSize: 12
                         font.bold: false
-                        anchors.top: item_topic.bottom
+                        anchors.top: item_keyword.bottom
                         anchors.left: parent.left
                         anchors.leftMargin: 10
                     }
@@ -210,55 +245,92 @@ Rectangle {
                         if(articleListIsSelectable) {
                             content_list.currentIndex = index;
                             articleListCurrentIndex = index;
-                            content_model.requestPathAndFormat(articleListCurrentIndex); 
+                            source_model.requestPathAndFormat(filter_proxy_model.mapToSource(filter_proxy_model.index(articleListCurrentIndex, 0)).row); 
                         }
                     }
                 }
             }
 
             highlight: Rectangle {
-                width: parent.width
-                height: parent.height
                 color: Style.highlight_color 
             }
 
             Component.onCompleted: {
-                content_model.requestPathAndFormat(articleListCurrentIndex); 
+                source_model.requestPathAndFormat(filter_proxy_model.mapToSource(filter_proxy_model.index(articleListCurrentIndex, 0)).row); 
             }
         }
 
         Rectangle {
             id: content_footer
-            height: button_source_edit.height + 20
+            height: button_add.height + 20
             Layout.fillWidth: true
             Layout.minimumWidth: parent.Layout.minimumWidth
             color: Style.background_color
             
             CustomButton {
-                id: button_source_edit
-                buttonText: "Source Editor"
-                width: parent.width - 20
-                anchors.top : content_footer.top
-                anchors.topMargin: 10
+                id: button_add
+                buttonText: "Add"
+                width: button_list_edit.width/2 - 5
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 10
                 anchors.left: parent.left
                 anchors.leftMargin: 10
-                color: sourceEditorButtonColor
-                border.color: sourceEditorButtonBorderColor
-                buttonTextColor: sourceEditorButtonTextColor
+
+                color: addButtonColor
+                border.color: addButtonBorderColor
+                buttonTextColor: addButtonTextColor
 
                 MouseArea {
-                    id: mouse_area_source_edit
-                    enabled: sourceEditorButtonEnabled
                     anchors.fill: parent
-                    onClicked: { 
-                        // console.log("Source Editor"); 
-                        if(button_source_edit.buttonText == "Source Editor") {
-                            rectangle_content_menu.pushContentSourceEditor(); 
-                            sourceEditorButtonEnabled = false;
-                            sourceEditorButtonTextColor = Style.inactive_color;
-                            sourceEditorButtonBorderColor = Style.inactive_color;
-                        }
+                    enabled: addButtonEnabled
+                    onClicked: {
+                        source_model.addData(filter_proxy_model.mapToSource(filter_proxy_model.index(articleListCurrentIndex, 0)).row)
+                        rectangle_content_menu.pushContentListEditor(); 
+                        listEditorButtonEnabled = false;
+                        listEditorButtonTextColor = Style.inactive_color;
+                        listEditorButtonBorderColor = Style.inactive_color;
+                        addButtonEnabled = false;
+                        addButtonTextColor = Style.inactive_color;
+                        addButtonBorderColor = Style.inactive_color;
                     }
+                }
+            }
+            
+            CustomButton {
+                id: button_remove
+                buttonText: "Remove"
+                width: button_list_edit.width/2 - 5
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 10
+                anchors.left: button_add.right
+                anchors.leftMargin: 10
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        remove_dialog.open()
+                    }
+                }
+
+                Component.onCompleted: {
+                    buttonTextColor = Style.forground_color
+                    border.color = Style.forground_color
+                }
+            }
+
+            MessageDialog {
+                id: remove_dialog
+                title: "Remove Entry"
+                text: "Really want to remove the selected entry?"
+                standardButtons: Dialog.Yes | Dialog.No
+
+                onAccepted: {
+                    // console.log("accepted removal")
+                    source_model.removeData(filter_proxy_model.mapToSource(filter_proxy_model.index(articleListCurrentIndex, 0)).row)
+                }
+
+                onRejected: {
+                    // console.log("canceled removal")
                 }
             }
         }

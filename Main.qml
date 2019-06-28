@@ -25,6 +25,16 @@ Rectangle {
             Layout.fillWidth: true
             Layout.minimumHeight: 50
             Layout.maximumHeight: 50
+
+            onPrintDocument: {
+                console.log("print...")
+            }
+            onLoadContents: {
+                console.log("load...")
+            }
+            onSaveContents: {
+                console.log("save...")
+            }
         }
 
         Ctrl1.SplitView {
@@ -45,19 +55,15 @@ Rectangle {
                     articleListIsSelectable = false
                 }
 
-                onPushContentSourceEditor: {
-                    content_viewer.push(content_viewer.content_source_editor);
-                }
-
                 Component.onCompleted: {
+                    addButtonEnabled = true;
+                    addButtonColor = Style.background_color;
+                    addButtonTextColor = Style.forground_color;
+                    addButtonBorderColor = Style.forground_color;
                     listEditorButtonEnabled = true;
                     listEditorButtonColor = Style.background_color;
                     listEditorButtonTextColor = Style.forground_color;
                     listEditorButtonBorderColor = Style.forground_color;
-                    sourceEditorButtonEnabled = true;
-                    sourceEditorButtonColor = Style.background_color;
-                    sourceEditorButtonTextColor = Style.forground_color;
-                    sourceEditorButtonBorderColor = Style.forground_color;
                     articleListIsSelectable = true;
                 }
             }
@@ -80,17 +86,15 @@ Rectangle {
                     content_viewer.pop();
                 }
 
-                onCloseSourceEditor: {
-                    article_menu.sourceEditorButtonEnabled = true;
-                    article_menu.sourceEditorButtonColor = Style.background_color;
-                    article_menu.sourceEditorButtonBorderColor = Style.forground_color;
-                    article_menu.sourceEditorButtonTextColor = Style.forground_color;
-                    // console.log("Close Source Editor");
-                    content_viewer.pop();
-                }
-
                 onEnableArticleList: {
                     article_menu.articleListIsSelectable = true;
+                }
+
+                onEnableAddButton: {
+                    article_menu.addButtonEnabled = true;
+                    article_menu.addButtonColor = Style.background_color;
+                    article_menu.addButtonBorderColor = Style.forground_color;
+                    article_menu.addButtonTextColor = Style.forground_color;
                 }
             }
         }

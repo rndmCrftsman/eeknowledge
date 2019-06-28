@@ -9,15 +9,14 @@ StackView {
     initialItem: content_web_view
 
     signal closeListEditor()
-    signal closeSourceEditor()
     signal enableArticleList()
+    signal enableAddButton()
 
     property alias content_list_editor: content_list_edit
     property alias articleListCurrentIndex: content_list_edit.articleListCurrentIndex
-    property alias content_source_editor: content_source_edit
     property var content_path: "/test.pdf"
+    property var old_path: ""
     property var content_format: "PDF"
-    property var source_path
 
     ListEditor {
         id: content_list_edit
@@ -29,42 +28,70 @@ StackView {
         onEnableArticleList: {
             content_view_handler.enableArticleList()
         }
-    }
 
-    SourceEditor {
-        id: content_source_edit
-
-        onCloseSourceEditor: {
-            content_view_handler.closeSourceEditor()
+        onEnableAddButton: {
+            content_view_handler.enableAddButton()
         }
     }
-    
+
     WebEngineView {
         id: content_web_view
         settings.pluginsEnabled: true
         settings.javascriptEnabled: true
-        url: {
-            "file:///" + application_dir_path + 
-            ((content_format == "PDF") ? "/pdfjs-2.0.943-dist/web/viewer.html?file=file:///" + application_dir_path : "") // add path to PDF viewer
-            + content_path 
+        url: ""
+
+        Component.onCompleted: {
+            update_url();
+        }
+
+        function update_url() {
+            if(content_path != "None" && content_format != "None") {
+                var file_exists = false;
+                var file_path = "file:///" + application_dir_path + content_path;
+                var file = new XMLHttpRequest();
+                file.open("GET", file_path, false)
+                file.onreadystatechange = function() {
+                    if(file.status == 0) {
+                        var content = file.responseText;
+                        if(content != "") {
+                            file_exists = true;
+                        }
+                    }
+                }
+                file.send(null)
+
+                if(file_exists) {
+                    if(content_path != old_path) {
+                        old_path = content_path;
+                        url = "file:///" + application_dir_path + 
+                        ((content_format == "PDF") ? "/pdfjs_mod/web/viewer.html?file=file:///" + application_dir_path : "") // add path to PDF viewer
+                        + content_path;
+                    }
+                } else {
+                    url = "file:///" + application_dir_path + "/file_does_not_exist.html";
+                    old_path = "/file_does_not_exist.html";
+                }
+            } else {
+                url = "file:///" + application_dir_path + "/no_file_found.html";
+                old_path = "/file_does_not_exist.html";
+            }
         }
     }
 
     signal rePathAndFormatChanged(string data)
 
     Component.onCompleted: {
-        content_model.pathAndFormatChanged.connect(rePathAndFormatChanged);
+        source_model.pathAndFormatChanged.connect(rePathAndFormatChanged);
     } 
     
     Connections {
         target: content_view_handler
 
         onRePathAndFormatChanged: {
-            // console.log("Ist da ein Format und Path aufgetaucht!");
-            // console.log(data);
             var content = data.split(',')
             content_view_handler.content_path = content[0]
             content_view_handler.content_format = content[1]
+            content_web_view.update_url();
         }
     }
 }

@@ -27,7 +27,7 @@ Rectangle {
             Layout.maximumHeight: 50
 
             onPrintDocument: {
-                console.log("print...")
+                source_model.printDocument(filter_proxy_model.mapToSource(filter_proxy_model.index(article_menu.articleListCurrentIndex, 0)).row)
             }
             onLoadContents: {
                 console.log("load...")

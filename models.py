@@ -1,4 +1,4 @@
-import sys, re
+import sys, os, re
 from PySide2.QtCore import QAbstractListModel, Qt, QModelIndex, Slot, Signal, QSortFilterProxyModel
 
 class ContentListModel(QAbstractListModel):
@@ -139,6 +139,21 @@ class ContentListModel(QAbstractListModel):
                 opened_file.write("description : " + entry.get("description") + "\n")
                 opened_file.write("format : " + entry.get("format") + "\n")
                 opened_file.write("}" + "\n")
+
+    @Slot(int)
+    def printDocument(self, index):
+        document_rel_path = self._content[index].get("source_path")
+        doc_rel_path_dirs = document_rel_path.split('/')[1:]
+        app_path = os.getcwd()
+        app_path_dirs = app_path.split('/')
+        doc_abs_path_dirs = app_path_dirs  
+        while(doc_rel_path_dirs[0] == ".."):
+            doc_rel_path_dirs = doc_rel_path_dirs[1:]
+            doc_abs_path_dirs = doc_abs_path_dirs[:-1]
+
+        doc_abs_path_dirs = doc_abs_path_dirs + doc_rel_path_dirs
+        doc_abs_path = '/'.join(doc_abs_path_dirs)
+        print(doc_abs_path)
 
 
 

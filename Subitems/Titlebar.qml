@@ -113,30 +113,6 @@ RowLayout {
         }
     }
 
-    // Rectangle {
-    //     id: load_button
-    //     color: Style.background_color
-        
-    //     Layout.fillHeight: true
-    //     width: 50
-
-    //     Text {
-    //         text: "\f093"
-
-    //         color: Style.forground_color
-    //         font.pointSize: Style.title.text.ptSize
-    //         font.bold: Style.title.text.bold
-
-    //         anchors.centerIn: parent
-    //     }
-
-    //     MouseArea {
-    //         anchors.fill: parent
-    //         onClicked: titlebar.loadContents()
-    //     }
-    // }
-
-
     Rectangle {
         id: load_button
         color: Style.background_color

@@ -1,6 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Layouts 1.5
 import QtQuick.Shapes 1.1
+import QtQuick.Window 2.2
 import "Style"
 
 RowLayout {
@@ -28,7 +29,7 @@ RowLayout {
 
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: 20
+            anchors.leftMargin: Screen.width / 100
         }
     }
 
@@ -37,7 +38,7 @@ RowLayout {
         color: Style.background_color
         
         Layout.fillHeight: true
-        width: 50
+        width: Screen.width / 40
 
         Canvas {
             id: print_printer_symbol
@@ -109,7 +110,30 @@ RowLayout {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: titlebar.printDocument()
+            onClicked: {
+                titlebar.printDocument()
+                printer_dialog.open()
+            }
+        }
+    }
+
+    PrinterDialog {
+        id: printer_dialog
+        height: Screen.height / 2
+        width: Screen.width / 5
+        x: Screen.width * 4 / 10
+        y: Screen.height * 1 / 4
+
+        contentItem: Item {
+            
+            
+            Text {
+                text: "Available Printers:"
+                anchors.left: parent.left
+                anchors.top: parent.top
+            }
+
+
         }
     }
 
@@ -118,7 +142,7 @@ RowLayout {
         color: Style.background_color
         
         Layout.fillHeight: true
-        width: 50
+        width: print_button.width
 
         Rectangle {
             id: load_horizontal_bar
@@ -196,7 +220,7 @@ RowLayout {
         color: Style.background_color
         
         Layout.fillHeight: true
-        width: 50
+        width: print_button.width
 
         Rectangle {
             id: save_horizontal_bar

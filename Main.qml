@@ -10,8 +10,8 @@ Rectangle {
     id: main_window
     objectName: "main_window"
 
-    width: 1200
-    height: 800
+    width: Screen.width // 1200
+    height: Screen.height // 800
     color: Style.forground_color
 
     ColumnLayout {
@@ -23,8 +23,8 @@ Rectangle {
             objectName: "main_titlebar"
             
             Layout.fillWidth: true
-            Layout.minimumHeight: 50
-            Layout.maximumHeight: 50
+            Layout.minimumHeight: Screen.height / 20
+            Layout.maximumHeight: Screen.height / 20
 
             onPrintDocument: {
                 source_model.printDocument(filter_proxy_model.mapToSource(filter_proxy_model.index(article_menu.articleListCurrentIndex, 0)).row)

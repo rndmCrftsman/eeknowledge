@@ -1,5 +1,7 @@
-import sys, os, re
-from PySide2.QtCore import QAbstractListModel, Qt, QModelIndex, Slot, Signal, QSortFilterProxyModel
+import sys, os, re, platform
+import subprocess
+from PySide2.QtCore import QAbstractListModel, Qt, QModelIndex, Slot, Signal, QSortFilterProxyModel, qDebug
+from PySide2.QtPrintSupport import QPrinter, QPrintDialog
 
 class ContentListModel(QAbstractListModel):
 
@@ -153,7 +155,21 @@ class ContentListModel(QAbstractListModel):
 
         doc_abs_path_dirs = doc_abs_path_dirs + doc_rel_path_dirs
         doc_abs_path = '/'.join(doc_abs_path_dirs)
-        print(doc_abs_path)
+        det_os = platform.system()
+        if(det_os == 'Linux'):
+            print("Printing on Linux...")
+            # lpr = subprocess.Popen(["lpr", doc_abs_path])
+        elif(det_os == 'Darwin'):
+            print("Printing on MacOS...")
+            # lpr = subprocess.Popen(["lpr", doc_abs_path])
+        else:
+            print('Printing on Windows...')
+
+
+
+
+        # lpr = subprocess.Popen(["lpr", doc_abs_path])
+        
 
 
 

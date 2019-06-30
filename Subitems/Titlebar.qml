@@ -121,20 +121,8 @@ RowLayout {
         id: printer_dialog
         height: Screen.height / 2
         width: Screen.width / 5
-        x: Screen.width * 4 / 10
-        y: Screen.height * 1 / 4
-
-        contentItem: Item {
-            
-            
-            Text {
-                text: "Available Printers:"
-                anchors.left: parent.left
-                anchors.top: parent.top
-            }
-
-
-        }
+        x: print_button.x + print_button.width - width
+        y: print_button.y + print_button.height
     }
 
     Rectangle {

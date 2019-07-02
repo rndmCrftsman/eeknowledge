@@ -26,12 +26,17 @@ Rectangle {
             Layout.minimumHeight: Screen.height / 20
             Layout.maximumHeight: Screen.height / 20
 
+            content_path: content_viewer.content_path
+            content_format: content_viewer.content_format
+
             onPrintDocument: {
-                source_model.printDocument(filter_proxy_model.mapToSource(filter_proxy_model.index(article_menu.articleListCurrentIndex, 0)).row)
+                // printer.printDocument(filter_proxy_model.mapToSource(filter_proxy_model.index(article_menu.articleListCurrentIndex, 0)).row)
             }
+
             onLoadContents: {
                 console.log("load...")
             }
+
             onSaveContents: {
                 console.log("save...")
             }

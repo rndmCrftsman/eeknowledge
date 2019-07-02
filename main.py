@@ -4,6 +4,7 @@ from PySide2.QtQuick import QQuickView
 from PySide2.QtCore import QUrl, Qt, QObject, QAbstractListModel, QRect, QStringListModel, QSortFilterProxyModel
 from models import ContentListModel, FilterModel
 from contentList import ContentList
+from printer import Printer
 
 app = QApplication(sys.argv)
 
@@ -17,6 +18,10 @@ filter_proxy_model.setSourceModel(source_model)
 
 root_context.setContextProperty('source_model', source_model)
 root_context.setContextProperty('filter_proxy_model', filter_proxy_model)
+
+printer = Printer()
+root_context.setContextProperty('printer', printer)
+
 app_dir_path = os.getcwd()
 app_dir_path_unix = app_dir_path.replace("\\", "/")
 root_context.setContextProperty('application_dir_path', app_dir_path_unix)

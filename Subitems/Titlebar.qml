@@ -12,6 +12,11 @@ RowLayout {
     signal loadContents()
     signal saveContents()
 
+    property var print_enabled: true
+
+    property var content_path
+    property var content_format
+
     Rectangle {
         id: title
         color: Style.background_color
@@ -35,6 +40,7 @@ RowLayout {
 
     Rectangle {
         id: print_button
+
         color: Style.background_color
         
         Layout.fillHeight: true
@@ -110,8 +116,10 @@ RowLayout {
 
         MouseArea {
             anchors.fill: parent
+            enabled: titlebar.print_enabled
             onClicked: {
                 titlebar.printDocument()
+                printer.getAvailablePrinters()
                 printer_dialog.open()
             }
         }
@@ -123,6 +131,15 @@ RowLayout {
         width: Screen.width / 5
         x: print_button.x + print_button.width - width
         y: print_button.y + print_button.height
+
+        onAccepted: {
+            console.log("Print")
+            printer.printDocument("", "", "", "", "", titlebar.content_path)
+        }
+
+        onRejected: {
+            console.log("Cancled")
+        }
     }
 
     Rectangle {

@@ -1,4 +1,5 @@
 import os, platform
+import subprocess
 try:
     import win32
 except:
@@ -30,3 +31,9 @@ class Printer(QObject):
         doc_abs_path_dirs = doc_abs_path_dirs + doc_rel_path_dirs
         doc_abs_path = '/'.join(doc_abs_path_dirs)
         print("print document: " + doc_abs_path)
+        if(self.det_os == "Linux" or self.det_os == "Darwin"):
+            # subprocess.open(["lpr", doc_abs_path])
+            pass
+        else:
+            # something with win32print
+            pass

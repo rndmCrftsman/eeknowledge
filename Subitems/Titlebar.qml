@@ -119,9 +119,13 @@ RowLayout {
             enabled: titlebar.print_enabled
             onClicked: {
                 titlebar.printDocument()
-                printer.getAvailablePrinters()
                 printer_dialog.open()
+                // printer.getAvailablePrinters()
             }
+        }
+
+        Component.onCompleted: {
+            printer.getAvailablePrinters()
         }
     }
 
@@ -134,7 +138,7 @@ RowLayout {
 
         onAccepted: {
             console.log("Print")
-            printer.printDocument("", "", "", "", "", titlebar.content_path)
+            printer.printDocument(printer_name, page_size, page_orientation, doublesided_options, titlebar.content_path)
         }
 
         onRejected: {
